@@ -19,7 +19,7 @@ class MainPage(ListView):
 
     def get_queryset(self):
         posts = Post.objects.all()
-        random_posts = random.sample(list(posts), 2)
+        random_posts = random.sample(list(posts), 5)
 
         return random_posts
 
@@ -55,6 +55,9 @@ class UserPage(TemplateView):
         context['user'] = User.objects.get(pk=kwargs['pk'])
         context['posts'] = Post.objects.filter(author=kwargs['pk'])
         context['subscribes'] = UserSubscription.objects.filter(user=kwargs['pk'])
+        context['is_subscribed'] = UserSubscription.objects.filter(
+            user=self.request.user,
+            author=kwargs['pk']).exists()
 
         return context
 
@@ -65,10 +68,21 @@ class CreatePost(CreateView):
     fields = ['title', 'content']
 
     def form_valid(self, form):
-        obj = form.save(commit=False)
-        obj.author = self.request.user
-        obj.save()
+        post = form.save(commit=False)
+        post.author = self.request.user
+        post.save()
         return HttpResponseRedirect(reverse('profile'))
 
     def get_success_url(self):
         return '/profile/'
+
+
+def subscribe(request, pk):
+    subscription = UserSubscription(user=request.user, author_id=pk)
+    subscription.save()
+    return HttpResponseRedirect(reverse('user', kwargs={'pk': pk}))
+
+def unsubscribe(request, pk):
+    subscription = UserSubscription.objects.get(user=request.user, author_id=pk)
+    subscription.delete()
+    return HttpResponseRedirect(reverse('user', kwargs={'pk': pk}))

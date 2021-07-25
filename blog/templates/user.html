@@ -6,7 +6,14 @@
             <img src="{% static 'img/no-img.png' %}" alt="">
         </div>
         <div class="col-6">
-            <h2>Username: {{ user.username }}</h2>
+            <div>
+                <h2>Username: {{ user.username }}</h2>
+                {% if is_subscribed %}
+                    <a class="btn bg-secondary" href="{% url 'user.unsubscribe' user.id %}">unsubscribe</a>
+                {% else %}
+                    <a class="btn bg-secondary" href="{% url 'user.subscribe' user.id %}">subscribe</a>
+                {% endif %}
+            </div>
             <p>Users subscribes:</p>
             <ul>
                 {% for subscribe in subscribes %}

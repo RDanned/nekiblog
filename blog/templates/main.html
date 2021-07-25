@@ -9,7 +9,10 @@
     {% for article in object_list %}
     <div class="row">
         <article class="col-12">
-            <h2><a href="{% url 'post.detail' article.id %}">{{ article.title }}</a></h2>
+            <h2>
+                <a href="{% url 'post.detail' article.id %}">{{ article.title }}</a>
+                <a href="{% url 'user' article.author.id %}">[{{ article.author }}]</a>
+            </h2>
             <span>{{ article.created_at }}</span>
             <p>{{ article.content }}</p>
         </article>
