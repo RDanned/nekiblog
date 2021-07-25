@@ -9,6 +9,7 @@ from django.views.generic import TemplateView
 from django.views.generic import CreateView
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.http import JsonResponse
 from .models import *
 # Create your views here.
 
@@ -103,3 +104,15 @@ def unsubscribe(request, pk):
     subscription = UserSubscription.objects.get(user=request.user, author_id=pk)
     subscription.delete()
     return HttpResponseRedirect(reverse('user', kwargs={'pk': pk}))
+
+
+def view_post(request, pk):
+    response = {'success': False}
+
+    post = Post.objects.get(pk=pk)
+    view = PostAction(post=post, user=request.user, viewed=True)
+    view.save()
+
+    response['success'] = True
+
+    return JsonResponse(response, safe=False)

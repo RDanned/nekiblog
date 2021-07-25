@@ -18,6 +18,8 @@
             <h2>
                 <a href="{% url 'post.detail' article.id %}">{{ article.title }}</a>
                 <a href="{% url 'user' article.author.id %}">[{{ article.author }}]</a>
+                <button data-post-id="{{ article.id }}" class="btn mark-viewed"><i class="bi bi-eye"></i></button>
+                <button data-post-id="{{ article.id }}" class="btn unmark-viewed"><i class="bi bi-eye-slash"></i></button>
             </h2>
             <span>{{ article.created_at }}</span>
             <p>{{ article.content }}</p>
