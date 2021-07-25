@@ -79,7 +79,7 @@ class CreatePost(CreateView):
 
 class MySubscriptionsPage(ListView):
     model = Post
-    template_name = 'main.html'
+    template_name = 'my_subscriptions.html'
 
     def get_queryset(self):
         subscriptions = UserSubscription.objects.filter(user=self.request.user)
@@ -97,6 +97,7 @@ def subscribe(request, pk):
     subscription = UserSubscription(user=request.user, author_id=pk)
     subscription.save()
     return HttpResponseRedirect(reverse('user', kwargs={'pk': pk}))
+
 
 def unsubscribe(request, pk):
     subscription = UserSubscription.objects.get(user=request.user, author_id=pk)

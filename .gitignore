@@ -4,3 +4,4 @@ __pycache__/
 *.pot
 *.pyc
 .idea
+.env
