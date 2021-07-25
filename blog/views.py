@@ -6,6 +6,9 @@ from django.views.generic import DetailView
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic import TemplateView
+from django.views.generic import CreateView
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 from .models import *
 # Create your views here.
 
@@ -54,3 +57,18 @@ class UserPage(TemplateView):
         context['subscribes'] = UserSubscription.objects.filter(user=kwargs['pk'])
 
         return context
+
+
+class CreatePost(CreateView):
+    template_name = 'post_form.html'
+    model = Post
+    fields = ['title', 'content']
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.author = self.request.user
+        obj.save()
+        return HttpResponseRedirect(reverse('profile'))
+
+    def get_success_url(self):
+        return '/profile/'

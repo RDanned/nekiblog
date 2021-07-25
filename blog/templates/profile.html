@@ -21,6 +21,9 @@
     <div class="row">
         <p>Your posts:</p>
     </div>
+    <div class="row">
+        <div class="col-4"><a class="btn btn-primary" href="{% url 'post.create' %}">Add post</a></div>
+    </div>
     {% for post in posts %}
     <div class="row">
         <article class="col-12">
