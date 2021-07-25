@@ -77,6 +77,22 @@ class CreatePost(CreateView):
         return '/profile/'
 
 
+class MySubscriptionsPage(ListView):
+    model = Post
+    template_name = 'main.html'
+
+    def get_queryset(self):
+        subscriptions = UserSubscription.objects.filter(user=self.request.user)
+
+        subscribed_users = []
+        for subscription in subscriptions:
+            subscribed_users.append(subscription.author)
+
+        posts = Post.objects.filter(author__in=subscribed_users).order_by('-created_at')
+
+        return posts
+
+
 def subscribe(request, pk):
     subscription = UserSubscription(user=request.user, author_id=pk)
     subscription.save()

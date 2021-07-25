@@ -1,15 +1,9 @@
 {% extends "base.html" %}
-{% block title %} Last article(random) {% endblock title %}
+{% block title %} My subscriptions {% endblock title %}
 
 {% block content %}
-    {% if user.is_authenticated %}
-    {% else %}
-        <div class="row">
-            you need to <a href="{% url 'login' %}">auth</a> to view your subscriptions posts
-        </div>
-    {% endif %}
     <div class="row">
-        <h1>Last articles</h1>
+        <h1>My subscriptions</h1>
         <hr />
     </div>
     {% for article in object_list %}
@@ -24,6 +18,6 @@
         </article>
     </div>
     {% empty %}
-    <div class="row">No posts yet.</div>
+    <div class="row">You have not subscriptions. Subscribe someone to view posts.</div>
     {% endfor %}
 {% endblock content %}
