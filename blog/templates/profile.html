@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="row">
+        <div class="col-4">
+            <img src="{% static 'img/no-img.png' %}" alt="">
+        </div>
+        <div class="col-6">
+            <h2>Username: {{ user.username }}</h2>
+            <p>Your subscribes:</p>
+            <ul>
+                {% for subscribe in subscribes %}
+                    <li>{{ subscribe.author.username }}</li>
+                {% empty %}
+                    <li>Your have no subscribes</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

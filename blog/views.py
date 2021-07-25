@@ -1,7 +1,11 @@
 import random
+from django import forms
 from django.shortcuts import render
 from django.views.generic import ListView
 from django.views.generic import DetailView
+from django.contrib.auth import authenticate
+from django.contrib.auth.forms import AuthenticationForm
+from django.views.generic import TemplateView
 from .models import *
 # Create your views here.
 
@@ -25,3 +29,14 @@ class PostDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+
+class ProfilePage(TemplateView):
+    template_name = 'profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        subscribes = UserSubscription.objects.filter(user_id=self.request.user.id)
+        context['subscribes'] = subscribes
+        return context
+
