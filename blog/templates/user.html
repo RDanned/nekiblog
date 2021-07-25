@@ -7,20 +7,17 @@
         </div>
         <div class="col-6">
             <h2>Username: {{ user.username }}</h2>
-            <p>Your subscribes:</p>
+            <p>Users subscribes:</p>
             <ul>
                 {% for subscribe in subscribes %}
                     <li><a href="{% url 'user' subscribe.author.id %}">{{ subscribe.author.username }}</a></li>
                 {% empty %}
-                    <li>Your have no subscribes</li>
+                    <li>No subscribes</li>
                 {% endfor %}
             </ul>
         </div>
     </div>
     <hr />
-    <div class="row">
-        <p>Your posts:</p>
-    </div>
     {% for post in posts %}
     <div class="row">
         <article class="col-12">

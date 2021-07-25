@@ -36,7 +36,21 @@ class ProfilePage(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        subscribes = UserSubscription.objects.filter(user_id=self.request.user.id)
-        context['subscribes'] = subscribes
+
+        context['subscribes'] = UserSubscription.objects.filter(user=self.request.user)
+        context['posts'] = Post.objects.filter(author=self.request.user)
+
         return context
 
+
+class UserPage(TemplateView):
+    template_name = 'user.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['user'] = User.objects.get(pk=kwargs['pk'])
+        context['posts'] = Post.objects.filter(author=kwargs['pk'])
+        context['subscribes'] = UserSubscription.objects.filter(user=kwargs['pk'])
+
+        return context
