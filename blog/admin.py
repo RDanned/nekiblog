@@ -11,5 +11,15 @@ class PostAdmin(admin.ModelAdmin):
     )
 
 
+class PostActionAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'user',
+        'post',
+        'viewed'
+    )
+
+
 admin.site.register(Post, PostAdmin)
+admin.site.register(PostAction, PostActionAdmin)
 admin.site.register(UserSubscription)

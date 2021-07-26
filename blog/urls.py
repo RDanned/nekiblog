@@ -9,6 +9,7 @@ urlpatterns = [
     path('my-subscribes/', views.MySubscriptionsPage.as_view(), name='my-subscribes'),
     path('posts/<int:pk>/', views.PostDetail.as_view(), name='post.detail'),
     path('posts/<int:pk>/view/', views.view_post, name='post.view'),
+    path('posts/<int:pk>/unview/', views.unview_post, name='post.unview'),
     path('posts/create/', views.CreatePost.as_view(), name='post.create'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('profile/', views.ProfilePage.as_view(), name='profile'),

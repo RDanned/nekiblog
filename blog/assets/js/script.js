@@ -1,13 +1,27 @@
 document.addEventListener('DOMContentLoaded', function(){ // Аналог $(document).ready(function(){
-    document.querySelector('.mark-viewed').addEventListener('click', e => {
-        let postId = e.target.dataset.postId
-        fetch(`posts/${postId}/view/`, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            method: 'patch'
+    document.querySelectorAll('.mark-viewed').forEach(btn => btn.addEventListener('click', e => {
+            let postId = e.currentTarget.dataset.postId
+            fetch(`posts/${postId}/view/`, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'patch'
+            })
+            .then(() => document.location.reload())
         })
-            .then(() => console.log('viewd'))
-    })
+    )
+
+    document.querySelectorAll('.unmark-viewed').forEach(btn => btn.addEventListener('click', e => {
+            let postId = e.currentTarget.dataset.postId
+            fetch(`posts/${postId}/unview/`, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'patch'
+            })
+            .then(() => document.location.reload())
+        })
+    )
 });

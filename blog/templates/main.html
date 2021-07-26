@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} Last article(random) {% endblock title %}
+{% block title %} Last posts {% endblock title %}
 
 {% block content %}
     {% if user.is_authenticated %}
@@ -9,21 +9,24 @@
         </div>
     {% endif %}
     <div class="row">
-        <h1>Last articles(random)</h1>
+        <h1>Last posts</h1>
         <hr />
     </div>
-    {% for article in object_list %}
+    {% for post in object_list %}
     <div class="row">
-        <article class="col-12">
+        <post class="col-12">
             <h2>
-                <a href="{% url 'post.detail' article.id %}">{{ article.title }}</a>
-                <a href="{% url 'user' article.author.id %}">[{{ article.author }}]</a>
-                <button data-post-id="{{ article.id }}" class="btn mark-viewed"><i class="bi bi-eye"></i></button>
-                <button data-post-id="{{ article.id }}" class="btn unmark-viewed"><i class="bi bi-eye-slash"></i></button>
+                <a href="{% url 'post.detail' post.id %}">{{ post.title }}</a>
+                <a href="{% url 'user' post.author.id %}">[{{ post.author }}]</a>
+                {% if post.viewed %}
+                    <button data-post-id="{{ post.id }}" class="btn unmark-viewed"><i class="bi bi-eye-slash"></i></button>
+                {% else %}
+                    <button data-post-id="{{ post.id }}" class="btn mark-viewed"><i class="bi bi-eye"></i></button>
+                {% endif %}
             </h2>
-            <span>{{ article.created_at }}</span>
-            <p>{{ article.content }}</p>
-        </article>
+            <span>{{ post.created_at }}</span>
+            <p>{{ post.content }}</p>
+        </post>
     </div>
     {% empty %}
     <div class="row">No posts yet.</div>

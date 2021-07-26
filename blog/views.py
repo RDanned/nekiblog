@@ -10,6 +10,7 @@ from django.views.generic import CreateView
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from .models import *
 # Create your views here.
 
@@ -19,10 +20,9 @@ class MainPage(ListView):
     template_name = 'main.html'
 
     def get_queryset(self):
-        posts = Post.objects.all()
-        random_posts = random.sample(list(posts), 5)
+        posts = Post.objects.all()[:5]
 
-        return random_posts
+        return posts
 
 
 class PostDetail(DetailView):
@@ -106,6 +106,7 @@ def unsubscribe(request, pk):
     return HttpResponseRedirect(reverse('user', kwargs={'pk': pk}))
 
 
+@csrf_exempt
 def view_post(request, pk):
     response = {'success': False}
 
@@ -116,3 +117,15 @@ def view_post(request, pk):
     response['success'] = True
 
     return JsonResponse(response, safe=False)
+
+
+@csrf_exempt
+def unview_post(request, pk):
+    response = {'success': False}
+
+    PostAction.objects.filter(post_id=pk, user=request.user, viewed=True).delete()
+
+    response['success'] = True
+
+    return JsonResponse(response, safe=False)
+

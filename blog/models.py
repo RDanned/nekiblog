@@ -12,6 +12,20 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
+    @property
+    def viewed(self):
+        post_actions = PostAction.objects.filter(post=self)
+
+        is_viewed = False
+
+        if post_actions.exists():
+            for post_action in post_actions:
+                if post_action.viewed:
+                    is_viewed = True
+
+        return is_viewed
+
+
     def __str__(self):
         return self.title
 
