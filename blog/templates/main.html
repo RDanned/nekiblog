@@ -2,12 +2,6 @@
 {% block title %} Last posts {% endblock title %}
 
 {% block content %}
-    {% if user.is_authenticated %}
-    {% else %}
-        <div class="row">
-            you need to <a href="{% url 'login' %}">auth</a> to view your subscriptions posts
-        </div>
-    {% endif %}
     <div class="row">
         <h1>Last posts</h1>
         <hr />

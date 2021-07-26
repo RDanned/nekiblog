@@ -1,16 +1,13 @@
-import random
-from django import forms
-from django.shortcuts import render
 from django.views.generic import ListView
 from django.views.generic import DetailView
-from django.contrib.auth import authenticate
-from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic import TemplateView
 from django.views.generic import CreateView
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import logout
 from .models import *
 # Create your views here.
 
@@ -35,8 +32,9 @@ class PostDetail(DetailView):
         return context
 
 
-class ProfilePage(TemplateView):
+class ProfilePage(LoginRequiredMixin, TemplateView):
     template_name = 'profile.html'
+    login_url = '/login/'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -78,9 +76,10 @@ class CreatePost(CreateView):
         return '/profile/'
 
 
-class MySubscriptionsPage(ListView):
+class MySubscriptionsPage(LoginRequiredMixin, ListView):
     model = Post
     template_name = 'my_subscriptions.html'
+    login_url = '/login/'
 
     def get_queryset(self):
         subscriptions = UserSubscription.objects.filter(user=self.request.user)
@@ -129,3 +128,7 @@ def unview_post(request, pk):
 
     return JsonResponse(response, safe=False)
 
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('main'))

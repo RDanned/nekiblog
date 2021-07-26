@@ -16,4 +16,5 @@ urlpatterns = [
     path('users/<int:pk>/', views.UserPage.as_view(), name='user'),
     path('users/<int:pk>/subscribe/', views.subscribe, name='user.subscribe'),
     path('users/<int:pk>/unsubscribe/', views.unsubscribe, name='user.unsubscribe'),
+    path('logout/', views.logout_view, name='logout')
 ]
