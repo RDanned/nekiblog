@@ -6,15 +6,20 @@
         <h1>My subscriptions</h1>
         <hr />
     </div>
-    {% for article in object_list %}
+    {% for post in object_list %}
     <div class="row">
         <article class="col-12">
             <h2>
-                <a href="{% url 'post.detail' article.id %}">{{ article.title }}</a>
-                <a href="{% url 'user' article.author.id %}">[{{ article.author }}]</a>
+                <a href="{% url 'post.detail' post.id %}">{{ post.title }}</a>
+                <a href="{% url 'user' post.author.id %}">[{{ post.author }}]</a>
+                {% if post.viewed %}
+                    <button data-post-id="{{ post.id }}" class="btn unmark-viewed"><i class="bi bi-eye-slash"></i></button>
+                {% else %}
+                    <button data-post-id="{{ post.id }}" class="btn mark-viewed"><i class="bi bi-eye"></i></button>
+                {% endif %}
             </h2>
-            <span>{{ article.created_at }}</span>
-            <p>{{ article.content }}</p>
+            <span>{{ post.created_at }}</span>
+            <p>{{ post.content }}</p>
         </article>
     </div>
     {% empty %}

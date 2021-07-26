@@ -14,7 +14,7 @@
     </div>
     {% for post in object_list %}
     <div class="row">
-        <post class="col-12">
+        <article class="col-12">
             <h2>
                 <a href="{% url 'post.detail' post.id %}">{{ post.title }}</a>
                 <a href="{% url 'user' post.author.id %}">[{{ post.author }}]</a>
@@ -26,7 +26,7 @@
             </h2>
             <span>{{ post.created_at }}</span>
             <p>{{ post.content }}</p>
-        </post>
+        </article>
     </div>
     {% empty %}
     <div class="row">No posts yet.</div>

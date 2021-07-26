@@ -28,7 +28,15 @@
     {% for post in posts %}
     <div class="row">
         <article class="col-12">
-            <h2><a href="{% url 'post.detail' post.id %}">{{ post.title }}</a></h2>
+            <h2>
+                <a href="{% url 'post.detail' post.id %}">{{ post.title }}</a>
+                <a href="{% url 'user' post.author.id %}">[{{ post.author }}]</a>
+                {% if post.viewed %}
+                    <button data-post-id="{{ post.id }}" class="btn unmark-viewed"><i class="bi bi-eye-slash"></i></button>
+                {% else %}
+                    <button data-post-id="{{ post.id }}" class="btn mark-viewed"><i class="bi bi-eye"></i></button>
+                {% endif %}
+            </h2>
             <span>{{ post.created_at }}</span>
             <p>{{ post.content }}</p>
         </article>
